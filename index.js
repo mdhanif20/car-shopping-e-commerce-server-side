@@ -33,7 +33,7 @@ async function run(){
         // orders post 
         app.post("/order",async(req,res)=>{
           const orders = req.body;
-          console.log(orders);
+          // console.log(orders);
           const result =  await allOrders.insertOne(orders);
           res.json(result);
         })
