@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors');
 const ObjectId = require('mongodb').ObjectId;
 const { MongoClient } = require('mongodb');
-const { query } = require("express");
+// const { query } = require("express");
 require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 5000;
@@ -18,11 +18,28 @@ async function run(){
         const database = client.db("carProducts");
         const products = database.collection("products");
         const allOrders = database.collection("orders");
+        // get products 
         app.get("/products",async(req,res)=>{
             const product = products.find({});
             const result = await product.toArray();
             res.send(result);
         })
+        // get by email orders
+        app.get("/order",async(req,res)=>{
+          const email = req.query.email;
+          const query = { email: email }
+          const product = allOrders.find(query);
+          const result = await product.toArray();
+          res.json(result);
+        }) 
+
+        // get all orders
+        app.get("/order",async(req,res)=>{
+          const product = allOrders.find({});
+          const result = await product.toArray();
+          res.send(result);
+        })
+        
         // get single product 
         app.get("/products/:id", async(req,res)=>{
           const id = req.params.id;
@@ -37,6 +54,14 @@ async function run(){
           const result =  await allOrders.insertOne(orders);
           res.json(result);
         })
+        //delete an orders
+        app.delete("/order/:id",async(req,res)=>{
+          const id = req.params.id;
+          const query =  {_id: ObjectId(id)};
+          const result = await allOrders.deleteOne(query);
+          res.json(result);
+        })
+        
     }
     finally{
         //await client.close();
