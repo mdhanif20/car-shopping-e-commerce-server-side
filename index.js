@@ -18,6 +18,7 @@ async function run(){
         const database = client.db("carProducts");
         const products = database.collection("products");
         const allOrders = database.collection("orders");
+        const allReviews = database.collection("reviews");
         // get products 
         app.get("/products",async(req,res)=>{
             const product = products.find({});
@@ -34,9 +35,16 @@ async function run(){
         }) 
 
         // get all orders
-        app.get("/order",async(req,res)=>{
+        app.get("/orders",async(req,res)=>{
           const product = allOrders.find({});
           const result = await product.toArray();
+          res.send(result);
+        })
+        
+        //get review
+        app.get("/reviews",async(req,res)=>{
+          const review = allReviews.find({});
+          const result = await review.toArray();
           res.send(result);
         })
         
@@ -52,7 +60,20 @@ async function run(){
           const orders = req.body;
           // console.log(orders);
           const result =  await allOrders.insertOne(orders);
-          res.json(result);
+          res.send(result);
+        })
+        // add new product 
+        app.post("/product",async(req,res)=>{
+          const product = req.body;
+          // console.log(orders);
+          const result =  await products.insertOne(product);
+          res.send(result);
+        })
+        // add new reviews 
+        app.post("/reviews",async(req,res)=>{
+          const review = req.body;
+          const result =  await allReviews.insertOne(review);
+          res.send(result);
         })
         //delete an orders
         app.delete("/order/:id",async(req,res)=>{
