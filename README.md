@@ -2,11 +2,9 @@
 
 [Live Side Link](https://online-car-shopping.web.app/).
 
-1. There is a seller showing their cars.
-2. Users can see car details and see different types of car colours.
-3. Users can see the new models and the best selling cars this year.
-4. Users can order products and can cancel orders.
-5. Users can log in or sign up by using email and a password.
-6. An admin can add new products or delete products, add new admins, manage all order details and products using her dashboard.
+1. Products load from mongoDB
+2. Review save on MongoDB.
+3. The admin can see all orders and can add products.
+4. Customers can see reviews.
 
 
